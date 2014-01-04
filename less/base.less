@@ -251,7 +251,7 @@ main
 		
 		&.home
 		{
-			> .blocks
+			> code
 			{
 				z-index: 1;
 				position: absolute;
@@ -259,43 +259,9 @@ main
 				bottom: 0;
 				left: 0;
 				right: 0;
-				height: 100%;
-				overflow: hidden;
-				
-				@media @medium
-				{
-					left: -8em;
-					right: -8em;				
-				}
-				
-				> div
-				{
-					position: relative;
-					z-index: 1;
-					display: block;
-					float: left;
-					width: 4em;
-					height: 4em;
-					opacity: 0;
 
-					box-shadow: .25em .25em .5em rgba(0,0,0,.1);
-					border-radius: @radii;
-					transition: .5s;
-					-webkit-transform: rotate(45deg);
-					
-					@media @medium
-					{
-						width: 6em;
-						height: 6em;					
-						-webkit-transform: rotate(0deg);
-					}
-
-					&.appear
-					{
-						-webkit-transform: rotate(45deg);
-						opacity: 1;
-					}
-				}
+				margin: 0;
+				padding: 12em 2em 2em;
 			}
 			
 			> .title
@@ -326,7 +292,7 @@ main
 							display: table-cell;
 							vertical-align: middle;
 							text-align: center;
-							background-color: rgba(255,255,255,.85);
+							background-color: rgba(255,255,255,.95);
 							padding: 3em 2em;
 							box-shadow: .25em .25em .5em rgba(0,0,0,.1);
 																
@@ -707,4 +673,35 @@ main
 			}
 		}	
 	}
+}
+
+.code-simulator
+{
+	overflow: hidden;
+	background-color: #212121;
+	color: lime;
+
+	white-space: pre;
+	font-family: monospace;
+	font-size: 1.3em;
+
+	.terminal
+	{
+		opacity: .5;
+	}
+	
+	.caret
+	{
+		background-color: white;
+		width: 1em;
+		height: 1em;
+		-webkit-animation: blink 1s infinite;
+	}
+
+	@-webkit-keyframes blink
+	{
+		0% { opacity: 1; }
+		50% { opacity: 0; }
+		100% { opacity: 1; }
+	}		
 }

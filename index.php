@@ -53,7 +53,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="code" id="code"></div>
+			<code id="code"></code>
 		</section>
 			
 		<section class="usage">
@@ -156,131 +156,7 @@ PAL;
 	</main>
 	
 	<script>
-		function findColour(key)
-		{
-			var image = $("example-" + key);
-			var example = $("canvas-" + key);
-			var frame = example.select(".frame").shift();
-			var button = example.select(".button").shift();
-			var blocks = example.select(".blocks").shift();
-			var details = example.select(".details").shift();
-			
-			var finder = new CodeSimulator();
-			var average = finder.getAverage(image);
-			var palette = finder.getPalette(image);
-
-			if(button) button.remove();
-						
-			for(i = 0; i < palette.length; i++)
-			{
-				blocks.select("div")[i].setStyle(
-					{
-						backgroundColor: "#" + palette[i]
-					}
-				);
-			}
-			
-			details.update();
-			new Insertion.Bottom(details, "<strong>Average colour:</strong> " + '<span style="background-color: #' + average + ';">#' + average + '</span>' + "<br/>");
-			new Insertion.Bottom(details, "<strong>Dominant colour:</strong> " + '<span style="background-color: #' + palette[0] + ';">#' + palette[0] + '</span>' + "<br/>");
-			
-			var pal = [];
-			for(i = 0; i < palette.length; i++)
-			{
-				pal.push('<span style="background-color: #' + palette[i] + ';">#' + palette[i] + '</span>');
-			}
-			new Insertion.Bottom(details, "<strong>Palette:</strong> " + pal.join(", ") + ".");
-			
-			details.addClassName("visible");
-		}
-
-		function getRandomInt (min, max) {
-		    return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
-		
-		function arrayRand(items)
-		{
-			return items[Math.floor(Math.random()*items.length)];
-		}
-		
-		function loop()
-		{
-			setTimeout(
-				function()
-				{
-					it++;
-					
-					if(seen.length <= max)
-					{
-						while(seen.indexOf(rand) != -1)
-						{
-							var rand = getRandomInt(0, (max-1));
-						}						
-
-						seen.push(rand);
-
-						var items = $("cover").select(".blocks").shift().select("div");
-						var item = items[rand];
-						if(item)
-						{
-							item.addClassName("appear");
-						}
-
-						loop(speed);
-					}
-				},
-				speed
-			);
-		}
-				
-		function play()
-		{	
-			for(i = 0; i < max; i++)
-			{
-				while(rand == previous)
-				{
-					rand = arrayRand(palette);
-				}
-				
-				var block = new Element("div");
-				block.setStyle(
-					{
-						backgroundColor: "#" + rand
-					}
-				);
-	
-				new Insertion.Bottom(
-					cover,
-					block
-				);
-				previous = rand;
-			}
-			
-			loop();
-		}
-
-		// http://www.colourlovers.com/palette/46688/fresh_cut_day
-		var palette = "69D2E7,A7DBD8,E0E4CC,F38630,FA6900,ECD078,D95B43,C02942,542437,53777A,FE4365,FC9D9A,F9CDAD,C8C8A9,83AF9B,556270,4ECDC4,C7F464,FF6B6B,C44D58,00A8C6,40C0CB,F9F2E7,AEE239,8FBE00,5ab6c6,f9ebd4,97c431,7ea700,0099b4,ece5db".split(",");
-		var cover = $("cover").select(".blocks").shift();
-		var rand = "";
-		var previous = "";
-		
-		var it = 0;
-		var seen = [];
-
-		if(document.viewport.getWidth() > 0)
-		{
-			var speed = 1;
-			var max = 78;
-		}
-		
-		if(document.viewport.getWidth() > 480)
-		{
-			var speed = 50;
-			var max = 400;
-		}
-
-		play();
+		new CodeSimulator({output: $("code")});
 	</script>
 	<script src="prism.js"></script>
 </body>
