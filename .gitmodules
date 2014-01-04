@@ -1,0 +1,3 @@
+[submodule "lib/CodeSimulator"]
+	path = lib/CodeSimulator
+	url = git@github.com:craigymunro/CodeSimulator.git
