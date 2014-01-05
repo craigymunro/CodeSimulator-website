@@ -6,11 +6,9 @@
 @min-width: 300px;
 @max-width: 1280px;
 @button: #98c632;
-
-@home: #69D2E7;
-@examples: #53777A;
-//@examples: #D95B43;
-@contact: #F9CDAD;
+@home: @button;
+@usage: darken(@button, 15%);
+@contact: darken(@button, 30%);
 
 // Fontz
 @font-stack: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -110,23 +108,13 @@ header
 					}				
 				}
 
-				&.examples
-				{
-					background-color: @examples;
-
-					&:hover
-					{
-						border-bottom-color: darken(@examples, 15%);
-					}
-				}
-
 				&.usage
 				{
-					background-color: @button;
+					background-color: @usage;
 
 					&:hover
 					{
-						border-bottom-color: darken(@button, 15%);
+						border-bottom-color: darken(@usage, 15%);
 					}
 				}
 
@@ -203,6 +191,7 @@ main
 		@media @medium
 		{
 			padding: 4em 2em;
+			height: 100%;
 		}
 			
 		> .details
@@ -261,7 +250,15 @@ main
 				right: 0;
 
 				margin: 0;
-				padding: 12em 2em 2em;
+				padding: 2em 1.25em;
+				font-size: 1em;
+				
+				@media @medium
+				{
+					font-size: 1.3em;
+					padding: 2em;
+					padding-top: 8em;
+				}
 			}
 			
 			> .title
@@ -271,6 +268,12 @@ main
 				display: table;
 				width: 100%;
 				height: 100%;
+				transition: .5s;
+
+				&.hide
+				{
+					left: 100%;
+				}
 				
 				> div
 				{
@@ -286,13 +289,13 @@ main
 						vertical-align: middle;
 						text-align: center;
 						margin: 0 auto;
-
+						
 						> div
 						{
 							display: table-cell;
 							vertical-align: middle;
 							text-align: center;
-							background-color: rgba(255,255,255,.95);
+							background-color: rgba(255,255,255,.9);
 							padding: 3em 2em;
 							box-shadow: .25em .25em .5em rgba(0,0,0,.1);
 																
@@ -326,21 +329,25 @@ main
 								margin: 0 auto .75em;
 								max-width: 16em;
 								
+								&:nth-of-type(1)
+								{
+									background-color: @home;
+								}
+
+								&:nth-of-type(2)
+								{
+									background-color: @usage;
+								}
+
+								&:nth-of-type(3)
+								{
+									background-color: @contact;
+								}
+								
 								&:last-of-type
 								{
 									margin-bottom: 0;
 								}
-								
-								&.examples
-								{
-									background-color: @examples;
-								}
-
-								&.download
-								{
-									background-color: @contact;
-								}
-
 							}
 						}
 					}
@@ -349,7 +356,6 @@ main
 		
 		}
 
-		&.examples,
 		&.usage,
 		&.contact
 		{
@@ -361,46 +367,26 @@ main
 		&.home
 		{
 			background-color: #fafafa;
-			//border-left: 1em solid @home;
 		}
 
 		&.usage
 		{
-			//background-color: #eaeaea;
-			border-left: 1em solid @button;
+			border-left: 1em solid @usage;
 
 			> .details
 			{
 				> h2
 				{
-					color: @button;
+					color: @usage;
 				}
 				
 				> h2 + p > a
 				{
-					color: @button;
+					color: @usage;
 				}
 			}
 		}
 		
-		&.examples
-		{
-			border-left: 1em solid @examples;
-			
-			> .details
-			{
-				> h2
-				{
-					color: @examples;
-				}
-				
-				.button
-				{
-					background-color: @examples;
-				}
-			}
-		}
-
 		&.contact
 		{
 			border-left: 1em solid @contact;
@@ -445,143 +431,6 @@ main
 		color: @button;
 		background-color: transparent;
 		text-decoration: underline;
-	}
-}
-
-.example
-{
-	position: relative;
-	float: left;
-	width: 100%;	
-	margin-bottom: 1.5em;
-
-	@media @medium
-	{
-		width: 50%;
-		padding-right: 1.5em;
-	}
-
-	@media @large
-	{
-		width: 33.333%;
-		padding-right: 3em;		
-	}
-	
-	@media @xlarge
-	{
-		width: 25%;
-	}
-
-	@media @xxlarge
-	{
-		width: 20%;
-	}
-
-	> .frame
-	{
-		position: relative;
-		padding: 1.5em;
-		padding-bottom: 0;
-		margin-bottom: 1.5em;
-		float: left;
-		clear: both;
-		width: 100%;
-		background-color: rgba(255, 255, 255, 0.85);
-		transition: .3s;
-		box-shadow: 0 .25em .5em rgba(0,0,0,.1);
-		border-radius: @radii;
-				
-		@media @medium
-		{
-			height: 30em;
-		}
-		
-		> div
-		{
-			float: left;
-			width: 100%;
-			
-			&:first-of-type
-			{
-				height: 0;
-				padding-bottom: 56.25%;
-				overflow: hidden;
-				
-				> a
-				{
-					> img
-					{
-						display: block;
-						width: 100%;
-					}
-				}
-			}
-	
-			&:last-of-type
-			{			
-				text-align: center;
-				padding: 1em 0 0;
-				
-				> .button
-				{
-					display: block;
-					clear: both;
-					font-size: .85em;
-					min-width: 100%;
-					margin: 0;
-					text-align: center;
-				}
-				
-				> .blocks
-				{
-					display: block;
-					float: left;
-					width: 100%;
-					margin-bottom: .5em;
-	
-					> div
-					{
-						float: left;
-						width: 10%;
-						height: 2.25em;
-						transition: 1s;
-						
-						&:first-of-type
-						{
-							border-radius: @radii 0 0 @radii;
-						}
-
-						&:last-of-type
-						{
-							border-radius: 0 @radii @radii 0;
-						}
-					}
-				}
-				
-				> .details
-				{
-					font-size: .85em;
-					text-align: left;
-					margin-bottom: 1em;
-					opacity: 0;
-					line-height: 1.8;
-					color: #707070;
-					
-					> span
-					{
-						color: white;
-						padding: .1em .2em;
-						border-radius: @radii;
-					}
-					
-					&.visible
-					{
-						opacity: 1;
-						transition: 1s;
-					}
-				}
-			}
-		}
 	}
 }
 
@@ -635,9 +484,12 @@ main
 	{
 		margin-bottom: 1.5em;
 		
-		> h3
+		> p
 		{
-			text-align: center;
+			> a
+			{
+				color: @button;
+			}
 		}
 	}
 }
@@ -683,19 +535,19 @@ main
 
 	white-space: pre;
 	font-family: monospace;
-	font-size: 1.3em;
 
 	.terminal
 	{
-		opacity: .5;
+		opacity: .4;
 	}
 	
 	.caret
 	{
-		background-color: white;
+		background-color: lime;
 		width: 1em;
 		height: 1em;
-		-webkit-animation: blink 1s infinite;
+		opacity: .5;
+		//-webkit-animation: blink 2s infinite;
 	}
 
 	@-webkit-keyframes blink

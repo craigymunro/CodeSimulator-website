@@ -24,7 +24,7 @@
 		<h1>CodeSimulator</h1>		
 		<nav>
 			<div>
-				<? foreach(explode(",", "Home,Example,Usage,Contact") as $item) { ?>
+				<? foreach(explode(",", "Home,Usage,Contact") as $item) { ?>
 					<a href="#<?=strtolower($item)?>" data-shortcut="<?=strtolower($item)?>" class="<?=strtolower($item)?> button"><?=$item?></a>
 				<? } ?>
 			</div>
@@ -34,7 +34,7 @@
 	<main>
 		<section class="home" id="cover">
 			<a name="home"></a>
-			<div class="title">
+			<div class="title" id="title">
 				<div>
 					<div class="card">
 						<div>
@@ -43,10 +43,10 @@
 
 							<p>
 								It randomly generates code sequences using several base blocks (flow control, variable definition, execution statements, and SQL queries).
-								Good for creating nonsense output to show to someone code illiterate!
+								Good for if you ever need output that looks code-y, but is actually nonsense!
 							</p>
 
-							<a href="#examples" class="button examples"><i class="fa fa-eye"></i> See it in action</a>
+							<a href="#examples" class="button example" id="example"><i class="fa fa-eye"></i> See it in action</a>
 							<a href="https://raw.github.com/craigymunro/CodeSimulator/master/CodeSimulator.js" class="button download"><i class="fa fa-download"></i> Download CodeSimulator.js</a>
 							<a href="https://github.com/craigymunro/CodeSimulator" class="button"><i class="fa fa-github"></i> View on Github</a>
 						</div>
@@ -59,66 +59,28 @@
 		<section class="usage">
 			<a name="usage"></a>
 <?
-$base = <<<BASE
+$usage = <<<USAGE
 <script src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.1/prototype.js"></script>
 <script src="CodeSimulator.js"></script>
 
 <script>
-// The image we'll be finding the palette for
-var image = $("demo");
+// The DOM element we want to output code to
+var code = $("code");
 
-// Create a new instance of CodeSimulator
-var finder = new CodeSimulator();
-
-
-BASE;
-
-$end = <<<END
-
+var simulator = new CodeSimulator({output: code});
 </script>
-END;
-
-$dom = <<<DOM
-// Find the dominant colour in the image. Returns a single hex code, i.e: "0069ff".
-var dominant = finder.getDominant(image);
-DOM;
-
-$ave = <<<AVE
-// Find the average colour of the image. Returns a single hex code, i.e. "00fa30".
-var average = finder.getAverage(image);
-AVE;
-
-$pal = <<<PAL
-// Find the colour palette of the image. Returns an array of
-// hex codes. Returns 10 colours by default.
-// ["0069ff", "0069aa", "20ba20", etc]
-var palette = finder.getPalette(image, size);
-PAL;
-?>			
+USAGE;
+?>
 			<div class="details">
-				<h2>Usage</h2>
-				<p>
-					Include <a href="//ajax.googleapis.com/ajax/libs/prototype/1.7.1/prototype.js">Prototype.js</a> and <a href="https://raw.github.com/craigymunro/CodeSimulator/master/CodeSimulator.js">CodeSimulator</a>, then use one (or all) of these functions:
-				</p>
-				
-				<div class="func">
-					<div>
-						<h3>Get the dominant colour in an image</h3>
-						<pre><code class="language-javascript"><?=nl2br(htmlentities($base . $dom . $end));?></code></pre>
-					</div>
-				</div>
 
 				<div class="func">
 					<div>
-						<h3>Get the average colour of an image</h3>
-						<pre><code class="language-javascript"><?=nl2br(htmlentities($base . $ave . $end));?></code></pre>
-					</div>
-				</div>
+						<h3>Usage</h3>
+						<p>
+							Include <a href="//ajax.googleapis.com/ajax/libs/prototype/1.7.1/prototype.js">Prototype.js</a> and <a href="https://raw.github.com/craigymunro/CodeSimulator/master/CodeSimulator.js">CodeSimulator</a>, then do:
+						</p>
 
-				<div class="func">
-					<div>
-						<h3>Get the colour palette of an image</h3>
-						<pre><code class="language-javascript"><?=nl2br(htmlentities($base . $pal . $end));?></code></pre>
+						<pre><code class="language-javascript"><?=nl2br(htmlentities($usage));?></code></pre>
 					</div>
 				</div>
 				
@@ -130,8 +92,8 @@ PAL;
 						</p>
 						
 						<ul>
-							<li><strong>CodeSimulator</strong> internally downsamples images to 1024 pixels wide to reduce processing time.</li>
-							<li><strong>CodeSimulator</strong> is biased towards saturated colours. It gives them a slightly higher weighting, as they are perceived to be more dominant than washed out colours.</li>
+							<li><strong>CodeSimulator</strong> doesn't generate real code.</li>
+							<li><strong>CodeSimulator</strong> mixes up syntax from lots of different languages.</li>
 						</ul>
 						
 						<p class="cta">
@@ -159,5 +121,54 @@ PAL;
 		new CodeSimulator({output: $("code")});
 	</script>
 	<script src="prism.js"></script>
+	
+	<script>
+		var example = $("example");
+		new Event.observe(example, "click", hideCover);
+		
+		function hideCover(e)
+		{
+			if(e) e.preventDefault();
+			
+			var code = $("code");
+			var title = $("title");
+			
+			title.addClassName("hide");
+		}
+
+		// Modified from https://gist.github.com/jojohess/1626835		
+		function scanline(sel, col, os, dir, lw)
+		{
+			os = os || 5;
+			dir = dir || '0';
+			lw = lw || 1;
+			
+			var g,
+				v = document.createElement('canvas'),
+				n = v.getContext("2d");
+				v.width = os;
+				v.height = os;
+			
+			for(var x = 0; x <= os; x += os)
+			{
+				n.moveTo(0, x);		
+				n.lineTo(os, x);
+			}
+		
+			n.lineWidth = lw;
+			n.strokeStyle = col;
+			n.stroke();
+			
+			g = n.canvas.toDataURL();
+			
+			sel.setStyle(
+				{
+					backgroundImage: "url(" + g + ")"
+				}
+			);
+		}
+
+	scanline($("code"), "rgba(191,255,0,.1)");
+	</script>
 </body>
 </html>
