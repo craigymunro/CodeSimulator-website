@@ -2,14 +2,11 @@
 <head>
 	<title>CodeSimulator</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
-	<link rel="stylesheet/less" type="text/css" href="less/base.less" />
+	<link rel="stylesheet" type="text/css" href="static/css/base.css" />
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"/>
 	<link href="prism.css" rel="stylesheet" />	
 	<script src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1/prototype.js"></script>
-	<script src="lib/CodeSimulator/CodeSimulator.js"></script>
-
-	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.5.0/less.min.js	" type="text/javascript"></script>
-
+	<script src="static/CodeSimulator.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
 	<script>
 	  WebFont.load({
@@ -24,9 +21,9 @@
 		<h1>CodeSimulator</h1>		
 		<nav>
 			<div>
-				<? foreach(explode(",", "Home,Usage,Contact") as $item) { ?>
-					<a href="#<?=strtolower($item)?>" data-shortcut="<?=strtolower($item)?>" class="<?=strtolower($item)?> button"><?=$item?></a>
-				<? } ?>
+				<?php foreach(explode(",", "Home,Usage,Contact") as $item) { ?>
+					<a href="#<?php echo strtolower($item)?>" data-shortcut="<?php echo strtolower($item)?>" class="<?php echo strtolower($item)?> button"><?php echo $item?></a>
+				<?php } ?>
 			</div>
 		</nav>
 	</header>
@@ -58,7 +55,7 @@
 			
 		<section class="usage">
 			<a name="usage"></a>
-<?
+<?php
 $usage = <<<USAGE
 <script src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.1/prototype.js"></script>
 <script src="CodeSimulator.js"></script>
@@ -80,7 +77,7 @@ USAGE;
 							Include <a href="//ajax.googleapis.com/ajax/libs/prototype/1.7.1/prototype.js">Prototype.js</a> and <a href="https://raw.github.com/craigymunro/CodeSimulator/master/CodeSimulator.js">CodeSimulator</a>, then do:
 						</p>
 
-						<pre><code class="language-javascript"><?=nl2br(htmlentities($usage));?></code></pre>
+						<pre><code class="language-javascript"><?php echo nl2br(htmlentities($usage));?></code></pre>
 					</div>
 				</div>
 				
